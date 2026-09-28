@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+.env
+.env*.local
+.vercel
+next-env.d.ts
+.pglite
+coverage
+
+# TypeScript incremental build artifact
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Personal notes for this machine, never published
+CLAUDE.local.md
+# Private helpers whose contents are themselves private
+.private/

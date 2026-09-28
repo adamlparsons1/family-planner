@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+/**
+ * Design tokens.
+ *
+ * Warm neutral ground so the children's colours carry all the signal.
+ * Type is large throughout: assume three metres away and a four-year-old.
+ */
+@theme {
+  /* Corkboard ground and paper cards. The app should read as a noticeboard in
+     a kitchen, not a dashboard: printed ledger rather than admin panel. */
+  --color-ground: #e5d8c2;
+  --color-ground-raised: #fffdf8;
+  --color-ground-sunken: #f7f2e6;
+  --color-ink: #2b2620;
+  --color-ink-soft: #7d6c53;
+  --color-ink-muted: #9c8b70;
+  --color-line: #e0d3ba;
+  --color-line-strong: #bda87f;
+  --color-segment-empty: #efe7d7;
+  --color-segment-line: #b7a582;
+  --color-tape: #e3cda4;
+
+  /* Child colours - pastel, and spaced apart in luminance as well as hue so
+     they survive colour-vision deficiency. Always paired with an icon; colour
+     is never the only channel. Text over these is always ink. */
+  --color-child-blue: #7FB3DA;
+  --color-child-pink: #EFB0CC;
+  --color-child-amber: #F5D492;
+  --color-neutral-family: #6b7f8f;
+
+  /* Feedback. Deliberately not red-vs-green as a meaningful pair. */
+  --color-affirm: #067A6F;
+  --color-warn: #B44A0E;
+
+  /* Kiosk type scale - larger than a normal app at every step */
+  --text-kiosk-sm: 1.125rem;
+  --text-kiosk-base: 1.5rem;
+  --text-kiosk-lg: 2.25rem;
+  --text-kiosk-xl: 3.5rem;
+  --text-kiosk-2xl: 5rem;
+
+  --radius-tile: 0.75rem;
+  --radius-card: 3px;
+  --spacing-touch: 3rem; /* 48px, above the 44px minimum */
+}
+
+/**
+ * Night theme. The iPad must not blaze at 9pm.
+ * Applied by adding data-theme="night" to <html> after the configured hour.
+ * The paper stays paper - just a much darker sheet of it.
+ */
+:root[data-theme='night'] {
+  --color-ground: #17130d;
+  --color-ground-raised: #241e16;
+  --color-ground-sunken: #1b1610;
+  --color-ink: #ece1cd;
+  --color-ink-soft: #a2937a;
+  --color-ink-muted: #8a7c66;
+  --color-line: #3a3126;
+  --color-line-strong: #4c4132;
+  --color-segment-empty: #2a231a;
+  --color-segment-line: #4c4132;
+  --color-tape: #3a3126;
+}
+
+html {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ground);
+  /* Corkboard: two offset dot grids, so it reads as texture rather than a
+     regular pattern at a glance. */
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--color-ground) 82%, #000) 1.1px, transparent 1.1px),
+    radial-gradient(color-mix(in srgb, var(--color-ground) 90%, #000) 1px, transparent 1px);
+  background-size: 8px 8px, 8px 8px;
+  background-position: 0 0, 4px 4px;
+  color: var(--color-ink);
+  font-family: var(--font-app), ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+
+/* viewportFit is 'cover', so on an iPad added to the home screen the page runs
+   under the home indicator. Keep tap targets clear of it. */
+.safe-pad {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+}
+.safe-bottom { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+
+/* A sheet of paper pinned to the board. */
+.paper {
+  background-color: var(--color-ground-raised);
+  background-image: repeating-linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--color-ink) 4%, transparent) 0 1px,
+    transparent 1px 3px
+  );
+  box-shadow:
+    0 12px 26px color-mix(in srgb, var(--color-ink) 22%, transparent),
+    0 2px 0 color-mix(in srgb, #fff 55%, transparent) inset;
+  border-radius: var(--radius-card);
+}
+
+/* Washi tape holding a card down. Decorative only. */
+.taped { position: relative; }
+.taped::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 104px;
+  height: 25px;
+  transform: translateX(-50%) rotate(-1.6deg);
+  background: color-mix(in srgb, var(--color-tape) 92%, transparent);
+  border-left: 1px dashed color-mix(in srgb, var(--color-ink) 32%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--color-ink) 32%, transparent);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-ink) 16%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+.taped-r::before { transform: translateX(-50%) rotate(1.4deg); }
+
+/* Fraunces for names, dates and numerals - the printed-ledger voice. */
+.serif { font-family: var(--font-display), Georgia, "Times New Roman", serif; }
+
+:root[data-theme='night'] body {
+  /* Dim the whole field rather than restyling every element. The children's
+     colours are the brightest thing on screen, and at 9pm on a wall they are
+     the problem, so this is deliberately heavy-handed. */
+  filter: brightness(0.62) saturate(0.85);
+}
+
+/* Kiosk rules: this is a wall display, not a document. */
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  /* iPad Safari will not let you type into a field that inherits
+     user-select: none. The school dinner box needs this. */
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+/* Every interactive element clears the 44px minimum. */
+button,
+[role='button'],
+a.tap {
+  min-height: var(--spacing-touch);
+  min-width: var(--spacing-touch);
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
