@@ -10,16 +10,27 @@ set up your family in the browser: no terminal needed.
 
 ## Deploying your own
 
-You need free accounts on [GitHub](https://github.com), [Vercel](https://vercel.com) and
-[Neon](https://neon.tech) (Neon can be added from inside Vercel).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fadamlparsons1%2Ffamily-planner&project-name=family-planner&repository-name=family-planner&env=SETUP_CODE&envDescription=Choose%20a%20setup%20word%20of%208%20or%20more%20letters.%20You%20will%20type%20it%20once%2C%20on%20the%20first%20page%20of%20your%20new%20planner%2C%20to%20prove%20it%20is%20yours.&envLink=https%3A%2F%2Fgithub.com%2Fadamlparsons1%2Ffamily-planner%23deploying-your-own&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%22neon%22%2C%22productSlug%22%3A%22neon%22%2C%22protocol%22%3A%22storage%22%7D%5D)
 
-1. **Import this repository into Vercel.** It detects Next.js on its own.
-2. **Add a database.** In the Vercel project, open **Storage**, add a **Neon** Postgres database
-   and connect it to the project. The app finds the connection string itself.
-3. **Choose a setup word.** Add an environment variable called `SETUP_CODE`: any word or phrase
-   of at least 8 characters. It stops anyone else setting up your planner before you do.
-4. **Deploy**, then open your planner's address. It goes straight to **Set up your planner**:
+You need free accounts on [GitHub](https://github.com) and [Vercel](https://vercel.com).
+The button does the rest:
+
+1. **It copies this code** into your own GitHub account.
+2. **It creates a Neon database** for your planner. Choose **Create new**, and the free plan.
+3. **It asks for a setup word** (`SETUP_CODE`): any word or phrase of at least 8 characters.
+   It stops anyone else setting up your planner before you do.
+4. **It deploys.** Open your planner's address and it goes straight to **Set up your planner**:
    enter the setup word, your family, a passcode and a 4-digit grown-ups' PIN.
+
+<details>
+<summary>Without the button</summary>
+
+1. Fork or import this repository into Vercel. It detects Next.js on its own.
+2. In the Vercel project, open **Storage**, add a **Neon** database and connect it to the
+   project. The app finds the connection string itself.
+3. Add an environment variable `SETUP_CODE` (8+ characters), then deploy and open `/setup`.
+
+</details>
 
 That's all. `/setup` creates the database tables, and it can only ever run once: after that it
 just says the planner is already set up.
