@@ -11,6 +11,7 @@ const SECTIONS = [
   { href: '/admin/homework', title: 'Homework', body: 'Weekly reading and practice, one-off projects, and the day the week starts.' },
   { href: '/admin/points', title: 'Points', body: 'Every star earned and spent, and manual adjustments.' },
   { href: '/admin/school', title: 'School days', body: 'Term dates, holidays and INSET days. Weekends work themselves out.' },
+  { href: '/admin/passcode', title: 'Passcode and PIN', body: 'Change the passcode that opens the planner, or the grown-ups\u2019 PIN.' },
 ];
 
 export default async function AdminPage() {

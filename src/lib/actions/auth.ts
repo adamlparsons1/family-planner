@@ -1,12 +1,12 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { getSession, PIN_TTL_MS } from '@/lib/session';
 import { getSettings } from '@/lib/settings';
 import { verifySecret } from '@/lib/auth-hash';
 import { isRateLimited, recordAttempt } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/client-ip';
 
 /**
  * Every mutation goes through a validated server action. These two are the
@@ -39,12 +39,6 @@ function databaseErrorMessage(err: unknown): string {
     return 'The database has no household set up yet. Run the seed against it, then try again.';
   }
   return 'Could not reach the database just now. Check the connection and try again.';
-}
-
-async function clientIp(): Promise<string> {
-  const h = await headers();
-  // Vercel sets x-forwarded-for; the first entry is the client.
-  return h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
 }
 
 /**

@@ -41,10 +41,13 @@ up without revealing anything private.
 
 ### Changing the passcode or PIN later
 
-From a computer with this repository:
+In the planner, go to **Grown-ups → Passcode and PIN**. Both changes ask for the current PIN
+again. Devices that are already signed in stay signed in.
+
+If you have forgotten the PIN, it can only be reset from a computer with this repository:
 
 ```bash
-DATABASE_URL="<your Neon connection string>" npm run db:credentials -- --passcode "new passcode" --pin 4821
+DATABASE_URL="<your Neon connection string>" npm run db:credentials -- --pin 4821
 ```
 
 Take a backup any time from **Grown-ups → Download a backup**.

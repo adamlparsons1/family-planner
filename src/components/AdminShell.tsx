@@ -22,6 +22,7 @@ export function AdminShell({
     { href: '/admin/homework', label: 'Homework' },
     { href: '/admin/points', label: 'Points' },
     { href: '/admin/school', label: 'School days' },
+    { href: '/admin/passcode', label: 'Passcode' },
   ];
 
   return (
